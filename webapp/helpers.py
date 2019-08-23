@@ -1,3 +1,6 @@
+import re
+
+
 def get_pagination_page_array(page, total_pages):
     """
     Return an array of page numbers to display for a given page with
@@ -27,3 +30,14 @@ def get_pagination_page_array(page, total_pages):
         )
 
     return list(range(first_page_to_show, last_page_to_show + 1))
+
+
+def get_download_url(platform_category):
+    """Return a download url for the matching platform"""
+    if re.search(r"desktop|laptop", platform_category, re.IGNORECASE):
+        return "https://ubuntu.com/download/desktop"
+    if re.search(r"server", platform_category, re.IGNORECASE):
+        return "https://ubuntu.com/download/server/"
+    if re.search(r"core", platform_category, re.IGNORECASE):
+        return "https://ubuntu.com/download/iot/"
+    return "https://ubuntu.com/download"

@@ -8,7 +8,7 @@ from canonicalwebteam.http import CachedSession
 
 # Local
 from webapp.api import CertificationAPI
-from webapp.helpers import get_pagination_page_array
+from webapp.helpers import get_download_url, get_pagination_page_array
 
 
 app = FlaskBase(
@@ -92,16 +92,18 @@ def hardware(canonical_id):
 
     # Build model name
     model_names = [model["model"] for model in models]
+    category = models[0]["category"]
 
     return flask.render_template(
         "hardware.html",
         canonical_id=canonical_id,
         name=", ".join(model_names),
-        category=models[0]["category"],
+        category=category,
         vendor=models[0]["make"],
         major_release=models[0]["major_release"],
         hardware_details=hardware_details,
         release_details=release_details,
+        download_url=get_download_url(category),
         # Only show the first 5 components
         components=api.componentsummaries(canonical_id=canonical_id)[
             "objects"
